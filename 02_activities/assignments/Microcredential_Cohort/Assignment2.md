@@ -57,7 +57,13 @@ The store wants to keep customer addresses. Propose two architectures for the CU
 **HINT:** search type 1 vs type 2 slowly changing dimensions. 
 
 ```
-Your answer...
+First architecture for CUSTOMER_ADDRESS table:
+- Each row is the address of a customer, with the primary key in the table being 'customer_id' and the attributes being the details of the address (e.g. unit number, street number, street name, city, province, country, and postal code). This means that a 'customer_id' can only appear once (it is a unique ID/value) in this CUSTOMER_ADDRESS table. In this first architecture, when a user updates a customer address, they change the existing values in a given row that represents one customer's address.
+- This is a Type 1 SCD.
+
+Second architecture for CUSTOMER_ADDRESS table: 
+- Each row is an address, with the primary key in the table being 'address_id' and the attributes being the same as in the first architecture (parts of the address) but ALSO with the additional attributes of 'customer_id' and of 'current'. This means that one customer_id can appear multiple times (it is a non-unique ID/value) in this CUSTOMER_ADDRESS table. The attribute 'current' is a BOOLEAN which is TRUE if the address is the customer's current address and FALSE if the address is a customer's previous address. In this second architecture, when a user updates a customer address, they don't overwrite existing rows except to change the BOOLEAN value of 'current' to FALSE if they are adding a new address for a given 'customer_id'. Instead, they just add a new row which represents an address for a customer, and the previous rows representing prvevious addresses for customers are kept as well.
+- This is a Type 2 SCD.
 ```
 
 ***
